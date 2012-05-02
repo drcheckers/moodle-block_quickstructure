@@ -8,7 +8,6 @@ function init_painting(Y){
             var col = e.target.get('value');
             var str = e.target.get('id');
             name=str.replace('colb','name');    
-            console.log(name);
             Y.one("#"+name).setStyle("background", col);    
         });        
         Y.one("#colb").on('focus', function(e){
@@ -19,7 +18,6 @@ function init_painting(Y){
             name=str.replace('colb','name');
             Y.all(".pickerb").each(function(node){
                 nn=node.get('id');
-                console.log(nn);
                 Y.one("#"+nn).set('value',col);
                 Y.one("#colpicked_"+nn).setStyle("background", col);
             });   
@@ -28,7 +26,6 @@ function init_painting(Y){
             var col = e.target.get('value'); 
             var str = e.target.get('id');
             name=str.replace('colf','name');
-            console.log(name);
             Y.one("#"+name).setStyle("color", col);    
         });        
         Y.one("#colf").on('focus', function(e){

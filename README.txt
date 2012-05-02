@@ -17,14 +17,16 @@ for a popup colour picker.
 The colour picker popup widget
 
 #1. Put provided copies of 
-        lib/form/colourpopup.php 
-        lib/form/colourpopup.js 
+        colourpopup.php 
+        colourpopup.js 
     into your lib/form directory
 
 ** Quickstructure Block
 The quickstructure block folder needs moving to blocks folder
 Install as per any other block - by visiting the admins 'notifications' page
 
+2/5/2012
+Updated to work with moodle 2.2 - eschewed file picker in favour of simpler - less clicky operation
 
 Emails of gratification to igc@kgv.hk
 Limited support available - too many other jobs that pay the mortgage take priority :)

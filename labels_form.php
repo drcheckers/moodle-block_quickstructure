@@ -31,8 +31,8 @@ class labels_form extends moodleform
             foreach($sections as $section){
                 $sect = new qssection($section->summary);
                 $summary = htmlentities(strip_tags($sect->gethead()));
-                $fg=empty($sect->fcol)?'#000000':$sect->fcol;
-                $bg=empty($sect->bcol)?'#FFFFFF':$sect->bcol;
+                $fg=empty($sect->fcol)?'#000000':strtoupper($sect->fcol);
+                $bg=empty($sect->bcol)?'#FFFFFF':strtoupper($sect->bcol);
                 $mform->addElement('html','<tr><td width="150">');
                 $mform->addElement('colourpopup','colb_'.$section->id,'',array('id'=>'colb_'.$section->id,'tabindex'=>-1,'class'=>'pickerb','value'=>$bg));
                 $mform->addElement('html','</td><td width="150">');

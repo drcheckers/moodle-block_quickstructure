@@ -78,7 +78,6 @@ M.util.init_colour_popup = function(Y, id, previewconf) {
             endFollow : function(e) {
                 this.eventMouseMove.detach();
                 this.eventMouseLeave.detach();
-                this.box.ancestor().setStyle('display','none'); 
                 this.eventMouseEnter = Y.on('mouseenter', this.startFollow, this.image, this);
             },
             /**
