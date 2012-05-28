@@ -73,7 +73,7 @@
                 $stripbcol=optional_param('colb_' . $section->id,'#000088',PARAM_TEXT);
                 $stripfcol=optional_param('colf_' . $section->id,'#ffffff',PARAM_TEXT);
                 $t=optional_param('name_' . $section->id,"Section {$section->section}",PARAM_TEXT);
-                $new = "<h2 class='qs_header' style='background-color:{$stripbcol};color:{$stripfcol}'>" . strip_tags(htmlentities(str_replace('&',' and ',$t))) . '</h2>' . ($sect->getimage(200)) . ($sect->gettail());          
+                $new = "<h2 class='qs_header' style='background-color:{$stripbcol};color:{$stripfcol}'>" . strip_tags(str_replace('&',' and ',$t)) . '</h2>' . ($sect->getimage(200)) . ($sect->gettail());          
                 $section->summary=$new;
             }
             

@@ -30,7 +30,7 @@ class labels_form extends moodleform
         if ($sections = $DB->get_records_sql($sql)) {
             foreach($sections as $section){
                 $sect = new qssection($section->summary);
-                $summary = htmlentities(strip_tags($sect->gethead()));
+                $summary = strip_tags($sect->gethead());
                 $fg=empty($sect->fcol)?'#000000':strtoupper($sect->fcol);
                 $bg=empty($sect->bcol)?'#FFFFFF':strtoupper($sect->bcol);
                 $mform->addElement('html','<tr><td width="150">');
