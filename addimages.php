@@ -55,6 +55,9 @@
 
         $menucolour = optional_param("menucolour_{$cid}",get_config('blocks/quickstructure',"menucolour_{$cid}"),PARAM_TEXT);
         set_config("menucolour_$cid",$menucolour,'blocks/quickstructure');
+
+        $menutextcolour = optional_param("menutextcolour_{$cid}",get_config('blocks/quickstructure',"menutextcolour_{$cid}"),PARAM_TEXT);
+        set_config("menutextcolour_$cid",$menutextcolour,'blocks/quickstructure');
     }
     
     $sql = "SELECT id, section, visible, summary
@@ -75,6 +78,7 @@
                 $t=optional_param('name_' . $section->id,"Section {$section->section}",PARAM_TEXT);
                 $new = "<h2 class='qs_header' style='background-color:{$stripbcol};color:{$stripfcol}'>" . strip_tags(str_replace('&',' and ',$t)) . '</h2>' . ($sect->getimage(200)) . ($sect->gettail());          
                 $section->summary=$new;
+                $section->name=strip_tags(str_replace('&',' and ',$t));
             }
             
             // deal with FILES the old fashioned way - naughty - but interface preferable to moodle 2 file picker
@@ -120,6 +124,10 @@
        }
     }
     echo "</table>";
+    
+    rebuild_course_cache($cid);
+
+    $PAGE->navigation->clear_cache();
     
     // echo another return to course button 
     echo $return;

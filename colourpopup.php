@@ -28,7 +28,7 @@ class MoodleQuickForm_colourpopup extends HTML_QuickForm_text{
     function toHtml(){
         global $CFG, $COURSE, $USER, $PAGE, $OUTPUT;
         $id     = $this->getAttribute('id');
-        $PAGE->requires->js('/lib/form/colourpopup.js');
+        $PAGE->requires->js('/blocks/quickstructure/colourpopup.js');
         $PAGE->requires->js_init_call('M.util.init_colour_popup', array($id));
         $content = "<input size='8' name='" . $this->getName() . "' value='".$this->getValue()."' 
                         id='{$id}' type='text' " . $this->_getAttrString($this->_attributes) . " >";

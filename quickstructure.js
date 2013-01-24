@@ -49,6 +49,7 @@ function init_painting(Y){
 function quickstructuremenu (Y, code){
     Y.use('dom',function(){
         Y.all('.right.side').addClass('qs_hidden');
+        Y.all('h3.sectionname').addClass('qs_hidden');
         // menu mode toggler
         Y.one('#qs_showmenu').on('click',
             function(e){
@@ -61,7 +62,6 @@ function quickstructuremenu (Y, code){
                 }    
             }
         );
-        
         var holder = Y.one('#maincontent');
         var menu = Y.Node.create(code);
         holder.insert(menu,'after');

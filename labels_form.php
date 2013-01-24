@@ -6,8 +6,8 @@ class labels_form extends moodleform
    {
         global $CFG,$DB,$OUTPUT,$PAGE;
         
-        MoodleQuickForm::registerElementType('colourpopup', "$CFG->libdir/form/colourpopup.php", 'MoodleQuickForm_colourpopup');
-
+        //MoodleQuickForm::registerElementType('colourpopup', "$CFG->libdir/form/colourpopup.php", 'MoodleQuickForm_colourpopup');
+        MoodleQuickForm::registerElementType('colourpopup', $CFG->dirroot.'/blocks/quickstructure/colourpopup.php', 'MoodleQuickForm_colourpopup');
                 
         $cid     = $this->_customdata['cid'];  
         $course = $DB->get_record('course',array('id'=>$cid));
@@ -113,6 +113,16 @@ class labels_form extends moodleform
     $mform->setType('menucolour_'.$cid, PARAM_TEXT);
     $mform->setDefault('menucolour_'.$cid, $menubg);
     $mform->addElement('html','<i>' . get_string('bleeding', 'block_quickstructure') . '</i></td></tr>');
+
+    $menufg = get_config('blocks/quickstructure',"menutextcolour_{$cid}");
+    if($menufg === false){
+         $menufg='#000000';
+    }
+    $mform->addElement('html','<tr><td colspan=3>');
+    $mform->addElement('colourpopup','menutextcolour_'.$cid,get_string('menutextcolour','block_quickstructure'));
+    $mform->setType('menutextcolour_'.$cid, PARAM_TEXT);
+    $mform->setDefault('menutextcolour_'.$cid, $menufg);
+    $mform->addElement('html','</td></tr>');
     
     $mform->addElement('html','</table>'); 
     $mform->addElement('hidden', 'cid', $cid);

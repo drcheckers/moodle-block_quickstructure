@@ -53,6 +53,7 @@ M.util.init_colour_popup = function(Y, id, previewconf) {
                 this.eventMouseEnter = Y.on('mouseenter', this.startFollow, this.image, this);
             },
             popup: function(e){
+                Y.all('.form-colourpicker').setStyle('display','none');
                 this.box.ancestor().setStyle('display','block');
             },
             showColours : function(e){

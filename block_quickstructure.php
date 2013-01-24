@@ -35,7 +35,7 @@ class block_quickstructure extends block_base {
     }
 
     function applicable_formats() {
-        return (array('course-view-weeks' => true, 'course-view-topics' => true, 'course-edit-weeks' => true, 'course-edit-topics' => true));
+        return (array('course-view-topics' => true));
     }
 
     function get_content() {
@@ -79,6 +79,9 @@ class block_quickstructure extends block_base {
         
         $menucolour = get_config('blocks/quickstructure',"menucolour_{$course->id}");
         if($menucolour===false){ $menucolour=''; }
+
+        $menutextcolour = get_config('blocks/quickstructure',"menutextcolour_{$course->id}");
+        if($menutextcolour===false){ $menutextcolour=''; }
         
         if ($course->format == 'weeks' or $course->format == 'weekscss') {
             $highlight = ceil((time()-$course->startdate)/604800);
@@ -92,14 +95,7 @@ class block_quickstructure extends block_base {
         }
 
 
-        if (!empty($USER->id)) {
-            $display = $DB->get_field('course_display', 'display', array('course'=>$course->id, 'userid'=>$USER->id));
-        }
-        if (!empty($display)) {
-            $link = $CFG->wwwroot.'/course/view.php?id='.$course->id.'&amp;'.$sectionname.'=';
-        } else {
-            $link = '#section-';
-        }
+        $link = '#section-';
 
         $sql = "SELECT section, visible, summary
                   FROM {$CFG->prefix}course_sections
@@ -137,7 +133,7 @@ class block_quickstructure extends block_base {
         $this->content->text .= "<br/><br/><input type='checkbox' id='qs_folding' name='qs_folding' checked> <span style='color:#aaa'>use section folding</span>";
         if(has_capability('moodle/course:update', $context)){
             $this->content->footer = "<a href='{$CFG->wwwroot}/blocks/quickstructure/addlabels.php?cid=$course->id&bid={$this->instance->id}'>Edit</a>";
-            $menu = resetmenu($course,$numthumbs,$thumbwidth,$usethumbs,$uselabels,$menucolour,$thumbeffects);
+            $menu = resetmenu($course,$numthumbs,$thumbwidth,$usethumbs,$uselabels,$menucolour,$menutextcolour,$thumbeffects);
         } else {
             $menu = (get_config('blocks/quickstructure','qsmenu_'.$course->id));        
         }      
@@ -156,10 +152,10 @@ class block_quickstructure extends block_base {
 }
 
 
-function resetmenu($course,$numthumbs=6,$thumbwidth=100,$usethumbs=1,$uselabels=1,$menucolour='',$thumbeffects=1){    
+function resetmenu($course,$numthumbs=6,$thumbwidth=100,$usethumbs=1,$uselabels=1,$menucolour='',$menutextcolour='',$thumbeffects=1){    
     global $CFG,$DB;
     require_once("structurelib.php");
-    //dbg();
+    
     $sql = "SELECT id, section, visible, summary
                   FROM {$CFG->prefix}course_sections
                  WHERE course = $course->id AND
@@ -179,6 +175,7 @@ function resetmenu($course,$numthumbs=6,$thumbwidth=100,$usethumbs=1,$uselabels=
             $fg=empty($sect->fcol)?'#000000':$sect->fcol;
             $bg=empty($sect->bcol)?'#ffffff':$sect->bcol;
             $ibg=empty($menucolour)?$bg:$menucolour;
+            $ifg=empty($menutextcolour)?$bg:$menutextcolour;
             if($usethumbs){
                 $image = $sect->getimage($thumbwidth,'center');
                 if(!empty($image)){
@@ -195,9 +192,9 @@ function resetmenu($course,$numthumbs=6,$thumbwidth=100,$usethumbs=1,$uselabels=
             }
             if($uselabels){
                 if(empty($summary)){
-                    $label[] = "<td width='$thumbwidth' class='qs_header' align='center' style='padding:3px;color:{$fg};background-color:{$ibg};'><a class='qs_fold' id='qs_lfold_{$section->section}' style='color:{$fg};' href='#qs_topmenu'>" . "Section $section->section</a></td>";
+                    $label[] = "<td width='$thumbwidth' class='qs_header' align='center' style='padding:3px;color:{$ifg};background-color:{$ibg};'><a class='qs_fold' id='qs_lfold_{$section->section}' style='color:{$ifg};' href='#qs_topmenu'>" . "Section $section->section</a></td>";
                 }else{
-                    $label[] = "<td width='$thumbwidth' class='qs_header' align='center' style='padding:3px;color:{$fg};background-color:{$ibg};'><a class='qs_fold' id='qs_lfold_{$section->section}' style='color:{$fg};' href='#qs_topmenu'>" . "$summary</a></td>";
+                    $label[] = "<td width='$thumbwidth' class='qs_header' align='center' style='padding:3px;color:{$ifg};background-color:{$ibg};'><a class='qs_fold' id='qs_lfold_{$section->section}' style='color:{$ifg};' href='#qs_topmenu'>" . "$summary</a></td>";
                     $seen=$i;
                 }
             }
@@ -218,6 +215,11 @@ function resetmenu($course,$numthumbs=6,$thumbwidth=100,$usethumbs=1,$uselabels=
                     $m .= "<tr>" . implode('',$r) .  "</tr>" ;
                 }
                 if($uselabels){
+                    $lr = array_shift($labels);
+                    $m .= "<tr>" . implode('',$lr) .  "</tr>" ;
+                }
+            }else{
+                 if($uselabels){
                     $lr = array_shift($labels);
                     $m .= "<tr>" . implode('',$lr) .  "</tr>" ;
                 }
