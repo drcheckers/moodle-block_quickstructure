@@ -59,11 +59,11 @@
         $menutextcolour = optional_param("menutextcolour_{$cid}",get_config('blocks/quickstructure',"menutextcolour_{$cid}"),PARAM_TEXT);
         set_config("menutextcolour_$cid",$menutextcolour,'blocks/quickstructure');
     }
-    
+    $numsections = $DB->get_field('course_format_options','value',array('courseid'=>$course->id,'name'=>'numsections'));
     $sql = "SELECT id, section, visible, summary
                   FROM {$CFG->prefix}course_sections
                  WHERE course = $course->id AND
-                       section < ".($course->numsections+1)."
+                       section < ".($numsections+1)."
               ORDER BY section";
     
     

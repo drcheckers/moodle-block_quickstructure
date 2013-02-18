@@ -22,10 +22,11 @@ class labels_form extends moodleform
         //$mform->registerRule('col','regex','/^#([a-fA-F0-9]{6})$/');
         //$mform->addRule('colb','Enter a valid RGB color - # and then 6 characters','col');
         
+        $numsections = $DB->get_field('course_format_options','value',array('courseid'=>$course->id,'name'=>'numsections'));   
         $sql = "SELECT id, section, visible, summary
                   FROM {$CFG->prefix}course_sections
                  WHERE course = $course->id AND
-                       section < ".($course->numsections+1)."
+                       section < ".($numsections+1)."
               ORDER BY section";
         if ($sections = $DB->get_records_sql($sql)) {
             foreach($sections as $section){

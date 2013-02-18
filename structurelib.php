@@ -9,7 +9,6 @@ class qssection {
     var $bcol='';
     
     function qssection($xml) {
-        //dbg();
         $this->sep = "<!-- qs -->";
         $parts = explode($this->sep,$xml);
         if(isset($parts[1])){
@@ -169,7 +168,6 @@ class qssection {
     }
     
     function process() {
-        //dbg();
         $node = $this->dom;
         if($node->hasChildNodes()){
            $children = $node->childNodes;

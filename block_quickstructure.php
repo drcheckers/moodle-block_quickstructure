@@ -96,11 +96,12 @@ class block_quickstructure extends block_base {
 
 
         $link = '#section-';
-
+        $numsections = $DB->get_field('course_format_options','value',array('courseid'=>$course->id,'name'=>'numsections'));   
+    
         $sql = "SELECT section, visible, summary
                   FROM {$CFG->prefix}course_sections
                  WHERE course = $course->id AND
-                       section < ".($course->numsections+1)."
+                       section < ".($numsections+1)."
                  ORDER BY section";
 
         if ($sections = $DB->get_records_sql($sql)) {
@@ -155,11 +156,11 @@ class block_quickstructure extends block_base {
 function resetmenu($course,$numthumbs=6,$thumbwidth=100,$usethumbs=1,$uselabels=1,$menucolour='',$menutextcolour='',$thumbeffects=1){    
     global $CFG,$DB;
     require_once("structurelib.php");
-    
+    $numsections = $DB->get_field('course_format_options','value',array('courseid'=>$course->id,'name'=>'numsections'));   
     $sql = "SELECT id, section, visible, summary
-                  FROM {$CFG->prefix}course_sections
+                  FROM {course_sections}
                  WHERE course = $course->id AND
-                       section < ".($course->numsections+1)."
+                       section < ".($numsections+1)."
               ORDER BY section";
    
     if ($sections = $DB->get_records_sql($sql)) {
